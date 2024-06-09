@@ -1,0 +1,25 @@
+--Criar a network
+docker network create net-knight
+
+
+--Criar imagem da api
+docker build -t api-knight .
+docker image ls
+
+--Criar o container
+#docker run --name apiknight -dp 127.0.0.1:5002:5002 api-knight
+docker ps
+
+docker run --network net-knight -dp 127.0.0.1:5002:5002 api-knight
+
+
+--Baixar imagem do mongo
+docker run -d --name mongo-knight --network net-knight mongo
+docker ps
+
+
+
+-ver os containers
+docker ps
+-parar o container
+docker stop 17c648b5149d
