@@ -1,12 +1,8 @@
-using Knight.API.Data.Configurations;
-using Knight.API.Data.Repositories;
 using Knight.API.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddKeyedScoped<IKnightRepository, KnightRepository>("Knight");
 
 builder.Services.AddSingleton<MongoDbService>();
 

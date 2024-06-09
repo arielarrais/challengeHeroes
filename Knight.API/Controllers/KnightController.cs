@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Knight.API.Models;
-using Knight.API.Data.Repositories;
 using Knight.API.Data;
 using MongoDB.Driver;
 using Knight.API.Entities;
