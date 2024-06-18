@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+    volumes:
+      - mongo-data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    depends_on:
+      - 'mongo'
+    networks:
+      - app-network
+
+
+  app:
+    build: .
+    container_name: dotnet-app
+    ports:
+      - "5002:5002"
+    networks:
+      - app-network
+    environment:
+      - MONGO_CONNECTION_STRING=mongodb://mongo:27017
+      - ASPNETCORE_HTTP_PORTS=5002
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:

@@ -1,19 +1,30 @@
 # Use root/example as user/password credentials
 version: '3.1'
 
-services:
+networks:
+  netknight:
+    id: bcecf22288d5
+    name: net-knight
+    driver: bridge   
 
+services:  
   mongo:
     image: mongo
+    container_name: mongodb
     restart: always
     ports:
       - 27017:27017    
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - /db  
+    networks:
+      - netknight  
 
   mongo-express:
     image: mongo-express
+    container_name: mongo_express
     restart: always
     ports:
       - 8081:8081
@@ -22,3 +33,9 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
       ME_CONFIG_BASICAUTH: false
+    depends_on:
+      - 'mongo'
+    networks:
+      - netknight  
+
+  

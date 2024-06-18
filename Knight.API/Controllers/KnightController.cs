@@ -8,6 +8,8 @@ using MongoDB.Bson;
 using Knight.API.Helper;
 using static System.Net.Mime.MediaTypeNames;
 using System.Linq.Expressions;
+using MongoDB.Driver.Core.WireProtocol.Messages;
+using Amazon.Runtime.Internal;
 
 namespace Knight.API.Controllers
 {
@@ -70,11 +72,12 @@ namespace Knight.API.Controllers
             });
 
             return ret;
+
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<KnightHero?>> GetById(string id)        
+        public async Task<ActionResult<KnightHero?>> GetById(string id)
         {
 
             var filter = Builders<KnightHero>.Filter.Eq(x => x.Id, id);
@@ -87,7 +90,7 @@ namespace Knight.API.Controllers
         public async Task<ActionResult> Create(KnightHero knightHero)
         {
             await _knightHero.InsertOneAsync(knightHero);
-            return CreatedAtAction(nameof(GetById), new { id = knightHero.Id }, knightHero);   
+            return CreatedAtAction(nameof(GetById), new { id = knightHero.Id }, knightHero);
         }
 
 
